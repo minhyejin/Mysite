@@ -41,9 +41,7 @@
 			</div>
 		</div>
 		
-		<div id="footer">
-			<p>(c)opyright 2015,2016,2017</p>
-		</div> <!-- /footer -->
+		<jsp:include page="/WEB-INF/views/includes/foot.jsp"></jsp:include><!-- /footer -->
 		
 	</div>
 </body>

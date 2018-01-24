@@ -41,13 +41,12 @@ public class UserServlet extends HttpServlet {
 			
 			UserDao userDao = new UserDao();
 			userDao.insert(userVo);
-			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/joinsuccess.jsp");
 		} else if("loginform".equals(actionName)) {
 			System.out.println("loginform 진입");
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginform.jsp");
 			
-		}else if("login".equals(actionName)) {
+		} else if("login".equals(actionName)) {
 			System.out.println("login 진입");
 			
 			String email = request.getParameter("email");
@@ -82,10 +81,8 @@ public class UserServlet extends HttpServlet {
 			System.out.println("modifyform 진입");//포워딩 하기 전에 데이터 디비에서 가져와야함 
 			//pk로 가져와야 중복성이 없음 그래서 int no로 만든 다오를 가져옴 ->session에서 no를 get해옴 
 			HttpSession session = request.getSession(true);
-			UserVo authUser = (UserVo)session.getAttribute("authUser");
-			
-			if(authUser == null) {//no가 없으면 로그인 폼으로 이동 (redirect)
-				
+			UserVo authUser = (UserVo)session.getAttribute("authUser");			
+			if(authUser == null) {//no가 없으면 로그인 폼으로 이동 (redirect)		
 			}else {//no가 있으면 데이터가져옴 ->다오에서 가져옴 유저객체에 담음 
 				//로그인회원 no
 				int no = authUser.getNo();
@@ -102,17 +99,12 @@ public class UserServlet extends HttpServlet {
 			//원래는 if문 있어야함 
 			HttpSession session = request.getSession(true);
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
-			if(authUser == null) {//로그인 실패
-				
-				
+			if(authUser == null) {//로그인 실패	
 			}else {//로그인 성공 
 				//vo(no, name, password, gender)
 			int no = authUser.getNo();
 			//int no = Integer.valueOf(request.getParameter("no"));
 			String name = request.getParameter("name");
-			//String password = request.getParameter("password");
-			//String gender = request.getParameter("gender");
-			  //dao.update(vo)
 		    UserDao userDao = new UserDao();
 			UserVo userVo = userDao.getUser(no);
 		    userDao.update(userVo);
@@ -123,8 +115,7 @@ public class UserServlet extends HttpServlet {
 			}
 		}
 	}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		doGet(request, response);
 	}
 

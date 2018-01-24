@@ -15,7 +15,7 @@
 		
 		<div id="navigation">
 			<ul>
-				<li><a href="">황일영</a></li>
+				<li><a href="/mysite/main">민혜진</a></li>
 				<li><a href="">방명록</a></li>
 				<li><a href="">게시판</a></li>
 			</ul>
@@ -27,11 +27,11 @@
 			<%int no = Integer.valueOf(request.getParameter("no"));%>		
 					<form method="get" action="gb?a=delete">
 					<input type='text' name="no" value="<%=no%>"> 
+						<label>방명록 번호</label>
+					
+						<input type="password" name="password">	<label>비밀번호</label>
 						
-						<label>비밀번호</label>
-						<input type="password" name="password">
-						<input type="submit" value="확인">
-						<input type="text" name="a" value ="delete">
+						<input type="text" name="a" value ="delete"><input type="submit" value="확인">
 					</form>
 					<a href="/gb?a=list">방명록 리스트</a>
 					
@@ -39,9 +39,7 @@
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
 		
-		<div id="footer">
-			<p>(c)opyright 2015,2016,2017</p>
-		</div> <!-- /footer -->
+		<jsp:include page="/WEB-INF/views/includes/foot.jsp"></jsp:include> <!-- /footer -->
 		
 	</div> <!-- /container -->
 

@@ -16,7 +16,7 @@
 				
 		<div id="navigation">
 			<ul>
-				<li><a href="">황일영</a></li>
+				<li><a href="/mysite/main">민혜진</a></li>
 				<li><a href="">방명록</a></li>
 				<li><a href="">게시판</a></li>
 			</ul>
@@ -57,10 +57,7 @@
 				</div><!-- /user -->
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
-		
-		<div id="footer">
-			<p>(c)opyright 2015,2016,2017</p>
-		</div> <!-- /footer -->
+		<jsp:include page="/WEB-INF/views/includes/foot.jsp"></jsp:include> <!-- /footer -->
 		
 	</div> <!-- /container -->
 
