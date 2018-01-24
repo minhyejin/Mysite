@@ -59,7 +59,9 @@ public class UserServlet extends HttpServlet {
 			UserVo userVo = userDao.getUser(email, password);
 			
 			if(userVo == null) {
-				System.out.println("로그인 실패");		
+				System.out.println("로그인 실패");	
+				WebUtil.redirect(request, response, "/mysite/user?a=loginform&result=fail");
+				
 			}else {
 				System.out.println("로그인 성공");
 				
@@ -77,38 +79,50 @@ public class UserServlet extends HttpServlet {
 				
 			}
 		else if("modifyform".equals(actionName)) {
-			System.out.println("modifyform 진입");
-			
-			HttpSession session = request.getSession();
+			System.out.println("modifyform 진입");//포워딩 하기 전에 데이터 디비에서 가져와야함 
+			//pk로 가져와야 중복성이 없음 그래서 int no로 만든 다오를 가져옴 ->session에서 no를 get해옴 
+			HttpSession session = request.getSession(true);
 			UserVo authUser = (UserVo)session.getAttribute("authUser");
-						
-			request.setAttribute("userInfo", authUser);
 			
-			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");	
-			
-		}else if("modify".equals(actionName)) {
+			if(authUser == null) {//no가 없으면 로그인 폼으로 이동 (redirect)
+				
+			}else {//no가 있으면 데이터가져옴 ->다오에서 가져옴 유저객체에 담음 
+				//로그인회원 no
+				int no = authUser.getNo();
+				//다오에서 가져옴 no
+				UserDao userDao = new UserDao();
+				UserVo userVo = userDao.getUser(no);
+				request.setAttribute("userVo", userVo);//데이터 저장
+				//데이터request에 저장 ->포워드
+				WebUtil.forward(request, response, "/WEB-INF/views/user/modifyform.jsp");	
+			}
+		}else if("modify".equals(actionName)) {//update시키는거 
 			
 			System.out.println("modify 진입");
-			
-			int no = Integer.valueOf(request.getParameter("no"));
+			//원래는 if문 있어야함 
+			HttpSession session = request.getSession(true);
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {//로그인 실패
+				
+				
+			}else {//로그인 성공 
+				//vo(no, name, password, gender)
+			int no = authUser.getNo();
+			//int no = Integer.valueOf(request.getParameter("no"));
 			String name = request.getParameter("name");
-			String password = request.getParameter("password");
-			String gender = request.getParameter("gender");
-			
-			UserDao userDao = new UserDao();
+			//String password = request.getParameter("password");
+			//String gender = request.getParameter("gender");
+			  //dao.update(vo)
+		    UserDao userDao = new UserDao();
 			UserVo userVo = userDao.getUser(no);
-			
-			userVo.setName(name);
-			if(password != "")
-				userVo.setPassword(password);
-			userVo.setGender(gender);
-			userDao.update(userVo);
-			
-			WebUtil.redirect(request, response, "/mysite/main");
-
+		    userDao.update(userVo);
+				//session name 값 변경
+			authUser.setName(name);	
+				//name redirect 
+				WebUtil.redirect(request, response, "/mysite/main");
+			}
 		}
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		doGet(request, response);

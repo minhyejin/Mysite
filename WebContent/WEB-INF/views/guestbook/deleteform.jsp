@@ -10,21 +10,8 @@
 <body>
 	<div id="container">
 		
-		<div id="header">
-			<h1>MySite</h1>
-			<ul>
-				<!-- 로그인 전 -->
-				<li><a href="">로그인</a></li>
-				<li><a href="">회원가입</a></li>
-				
-				<!-- 로그인 후 -->
-				<!-- 
-				<li><a href="">회원정보수정</a></li>
-				<li><a href="">로그아웃</a></li> 
-				<li> 황일영님 안녕하세요^^;</li>
-				-->
-			</ul>
-		</div> <!-- /header -->
+		<!-- /header -->
+		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
 		
 		<div id="navigation">
 			<ul>
@@ -37,14 +24,16 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="guestbook" class="delete-form">
-					
-					<form method="" action="">
+			<%int no = Integer.valueOf(request.getParameter("no"));%>		
+					<form method="get" action="gb?a=delete">
+					<input type='text' name="no" value="<%=no%>"> 
 						
 						<label>비밀번호</label>
 						<input type="password" name="password">
 						<input type="submit" value="확인">
+						<input type="text" name="a" value ="delete">
 					</form>
-					<a href="">방명록 리스트</a>
+					<a href="/gb?a=list">방명록 리스트</a>
 					
 				</div>
 			</div><!-- /content -->

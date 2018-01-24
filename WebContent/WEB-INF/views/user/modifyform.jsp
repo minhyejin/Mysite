@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.javaex.vo.UserVo" %>
 <%
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
+	UserVo userVo = (UserVo)request.getAttribute("userVo");
 %>
 <!DOCTYPE html>
 <html>
@@ -13,22 +13,8 @@
 <body>
 
 	<div id="container">
-		
-		<div id="header">
-			<h1>MySite</h1>
-			<ul>
-				<!-- 로그인 전 -->
-				<li><a href="">로그인</a></li>
-				<li><a href="">회원가입</a></li>
-				
-				<!-- 로그인 후 -->
-				<!-- 
-				<li><a href="">회원정보수정</a></li>
-				<li><a href="">로그아웃</a></li> 
-				<li> 황일영님 안녕하세요^^;</li>
-				-->
-			</ul>
-		</div> <!-- /header -->
+		 <!-- /header -->
+		 <jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
 				
 		<div id="navigation">
 			<ul>
@@ -46,24 +32,28 @@
 
 						
 						<label class="block-label" for="name">이름</label>
-						<input id="name" name="name" type="text" value="<%=authUser.getName() %>" />
+						<input id="name" name="name" type="text" value="<%=userVo.getName() %>" />
 	
 						<label class="block-label" for="email">이메일</label>
-						<strong><%=authUser.getEmail() %></strong>
+						<strong><%=userVo.getEmail()%></strong>
 						
 						<label class="block-label">패스워드</label>
-						<input name="password" type="password" value="" />
+						<input name="password" type="password" value="<%= userVo.getPassword() %>" />
 						
 						<fieldset>
 							<legend>성별</legend>
-							
-							<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
+							<% if("mail".equals(userVo.getGender())) {%>
+							<label>여</label> <input type="radio" name="gender" value="female" >
 						
 							<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
-							
+							<% }else { %>
+							<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
+						
+							<label>남</label> <input type="radio" name="gender" value="male" >
+							<%  }  %>
 						</fieldset>
-						<input type="hidden" name="no" value="<%=authUser.getNo()%>">
-						<input type="hidden" name="a" value="modify">
+						<input type="hidden" name="no" value="<%=userVo.getNo()%>">
+						<input type="text" name="a" value="modify">
 						<input type="submit" value="수정완료">
 						
 					</form>

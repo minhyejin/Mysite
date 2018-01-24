@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ page import="com.javaex.dao.GuestbookDao" %>
+<%@ page import="com.javaex.vo.GuestbookVo" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,21 +13,8 @@
 
 	<div id="container">
 		
-		<div id="header">
-			<h1>MySite</h1>
-			<ul>
-				<!-- 로그인 전 -->
-				<li><a href="">로그인</a></li>
-				<li><a href="">회원가입</a></li>
-				
-				<!-- 로그인 후 -->
-				<!-- 
-				<li><a href="">회원정보수정</a></li>
-				<li><a href="">로그아웃</a></li> 
-				<li> 황일영님 안녕하세요^^;</li>
-				-->
-			</ul>
-		</div> <!-- /header -->
+		 <!-- /header -->
+		 <jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
 		
 		<div id="navigation">
 			<ul>
@@ -39,13 +28,14 @@
 			<div id="content">
 				<div id="guestbook">
 					
-					<form action="" method="">
+					<form action="gb" method="get">
 						
 						<table>
 							<tr>
 								<td>이름</td><td><input type="text" name="name" /></td>
 								<td>비밀번호</td><td><input type="password" name="password" /></td>
 							</tr>
+							<td><input type="hidden" name="a" value="add"></td><tr>
 							<tr>
 								<td colspan=4><textarea name="content" id="content"></textarea></td>
 							</tr>
@@ -55,23 +45,33 @@
 						</table>
 					</form>
 					<ul>
+		<% GuestbookDao dao = new GuestbookDao();
+		List<GuestbookVo> gList = dao.getList();
+		
+		for(GuestbookVo gVo : gList){
+			int no = gVo.getNo();
+			String name = gVo.getName();
+			String content = gVo.getContent();
+			String date = gVo.getRegDate();
+	%>
 						<li>
 							<table>
 								<tr>
-									<td>[1]</td>
-									<td>황일영</td>
-									<td>2017-07-20 11:22:30</td>
-									<td><a href="">삭제</a></td>
+									<td><%= no %></td>
+									<td><%= name %></td>
+									<td><%= date %></td>
+									<td><a href="gb?a=deleteform&no=<%=no %>">삭제</a></td>
 								</tr>
 								<tr>
 									<td colspan=4>
-									안녕하세요. ^^;<br>
-									하하하하	
+									<%= content %>
+										
 									</td>
 								</tr>
 							</table>
 							<br>
 						</li>
+							<% } %>
 					</ul>
 					
 				</div><!-- /guestbook -->
@@ -83,6 +83,6 @@
 		</div> <!-- /footer -->
 		
 	</div> <!-- /container -->
-
+	
 </body>
 </html>
