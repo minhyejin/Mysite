@@ -105,13 +105,23 @@ public class UserServlet extends HttpServlet {
 			int no = authUser.getNo();
 			//int no = Integer.valueOf(request.getParameter("no"));
 			String name = request.getParameter("name");
-		    UserDao userDao = new UserDao();
-			UserVo userVo = userDao.getUser(no);
-		    userDao.update(userVo);
+			String gender = request.getParameter("gender");
+			String password = request.getParameter("password");//web에서 보낸 정보를 변수에 담는다 
+			
+		    UserDao userDao = new UserDao();//db
+			UserVo userVo = userDao.getUser(no);//다오에서 가져온 정보를 userVo에 저장 
+			
+			userVo.setName(name);
+			userVo.setGender(gender);
+			userVo.setPassword(password);//덮어씌움
+
+		    userDao.update(userVo);//디비에 넣어서 업데이트해줌 
+		    System.out.println(userVo.toString());
 				//session name 값 변경
-			authUser.setName(name);	
+			authUser.setName(name);//이름이 혹시 바뀌면 같이 바뀌라고 	
 				//name redirect 
-				WebUtil.redirect(request, response, "/mysite/main");
+				WebUtil.redirect(request, response, "/mysite/main");//저장을 시킨 후 메인으로 
+			
 			}
 		}
 	}

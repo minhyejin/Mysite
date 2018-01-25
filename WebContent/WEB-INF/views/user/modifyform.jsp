@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo" %>
-<%
-	UserVo userVo = (UserVo)request.getAttribute("userVo");
-%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,15 +13,9 @@
 
 	<div id="container">
 		 <!-- /header -->
-		 <jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		 <c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 				
-		<div id="navigation">
-			<ul>
-				<li><a href="">--</a></li>
-				<li><a href="">방명록</a></li>
-				<li><a href="">게시판</a></li>
-			</ul>
-		</div> <!-- /navigation -->
+		<c:import url="/WEB-INF/views/includes/navi.jsp"></c:import><!-- /navigation -->
 		
 		<div id="wrapper">
 			<div id="content">
@@ -32,27 +25,33 @@
 
 						
 						<label class="block-label" for="name">이름</label>
-						<input id="name" name="name" type="text" value="<%=userVo.getName() %>" />
+						<input id="name" name="name" type="text" value="${userVo.name }" />
 	
 						<label class="block-label" for="email">이메일</label>
-						<strong><%=userVo.getEmail()%></strong>
+						<strong>${userVo.email }</strong>
 						
 						<label class="block-label">패스워드</label>
-						<input name="password" type="password" value="<%= userVo.getPassword() %>" />
+						<input name="password" type="password" value="${userVo.password }" />
 						
-						<fieldset>
+						
 							<legend>성별</legend>
-							<% if("mail".equals(userVo.getGender())) {%>
-							<label>여</label> <input type="radio" name="gender" value="female" >
-						
+							
+							<c:choose> 
+							<c:when test = "${'male' == userVo.gender}">
+							
+							<label>여</label> <input type="radio" name="gender" value="female" >						
 							<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
-							<% }else { %>
-							<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-						
+							
+							</c:when>							
+							<c:otherwise>
+							
+							<label>여</label> <input type="radio" name="gender" value="female" checked="checked">						
 							<label>남</label> <input type="radio" name="gender" value="male" >
-							<%  }  %>
-						</fieldset>
-						<input type="hidden" name="no" value="<%=userVo.getNo()%>">
+							
+							</c:otherwise>
+							</c:choose>
+						
+						<input type="hidden" name="no" value="${userVo.no }">
 						<input type="text" name="a" value="modify">
 						<input type="submit" value="수정완료">
 						
@@ -61,7 +60,7 @@
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
 		
-		<jsp:include page="/WEB-INF/views/includes/foot.jsp"></jsp:include><!-- /footer -->
+		<c:import url ="/WEB-INF/views/includes/foot.jsp"></c:import><!-- /footer -->
 		
 	</div> <!-- /container -->
 

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.dao.GuestbookDao" %>
-<%@ page import="com.javaex.vo.GuestbookVo" %>
-<%@ page import="java.util.List" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,15 +13,8 @@
 	<div id="container">
 		
 		 <!-- /header -->
-		 <jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
-		
-		<div id="navigation">
-			<ul>
-				<li><a href="/mysite/main">민혜진</a></li>
-				<li><a href="">방명록</a></li>
-				<li><a href="">게시판</a></li>
-			</ul>
-		</div> <!-- /navigation -->
+		 <c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
+		<c:import url ="/WEB-INF/views/includes/navi.jsp"></c:import> <!-- /navigation -->
 		
 		<div id="wrapper">
 			<div id="content">
@@ -45,39 +37,33 @@
 						</table>
 					</form>
 					<ul>
-		<% GuestbookDao dao = new GuestbookDao();
-		List<GuestbookVo> gList = dao.getList();
-		
-		for(GuestbookVo gVo : gList){
-			int no = gVo.getNo();
-			String name = gVo.getName();
-			String content = gVo.getContent();
-			String date = gVo.getRegDate();
-	%>
+	
+	<c:forEach items = "${list }" var ="userVo" >
+	
 						<li>
 							<table>
 								<tr>
-									<td><%= no %></td>
-									<td><%= name %></td>
-									<td><%= date %></td>
-									<td><a href="gb?a=deleteform&no=<%=no %>">삭제</a></td>
+									<td>${userVo.no }</td>
+									<td>${userVo.name }</td>
+									<td>${userVo.regDate }</td>
+									<td><a href="/mysite/gb?a=deleteform&no=${userVo.no }">삭제</a></td>
 								</tr>
 								<tr>
 									<td colspan=4>
-									<%= content %>
+									${userVo.content }
 										
 									</td>
 								</tr>
 							</table>
 							<br>
 						</li>
-							<% } %>
+							</c:forEach>
 					</ul>
 					
 				</div><!-- /guestbook -->
 			</div><!-- /content -->
 		</div><!-- /wrapper -->
-		<jsp:include page="/WEB-INF/views/includes/foot.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/foot.jsp"></c:import>
 		<!-- /footer -->
 		
 	</div> <!-- /container -->

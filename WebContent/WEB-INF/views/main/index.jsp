@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,16 +12,10 @@
 	<div id="container">
 		
 		 <!-- /header -->
-		 <jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		 <c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		 
 		
-		<div id="navigation">
-			<ul>
-				<li><a href="">민혜진</a></li>
-				<li><a href="/mysite/gb?a=list">방명록</a></li>
-				<li><a href="">게시판</a></li>
-			</ul>
-		</div> <!-- /navigation -->
+		<c:import url="/WEB-INF/views/includes/navi.jsp"></c:import> <!-- /navigation -->
 
 		<div id="wrapper">
 			<div id="content">
@@ -34,14 +28,14 @@
 						메뉴는 사이트 소개, 방명록, 게시판이 있구요. JAVA 수업 + 데이터베이스 수업 + 웹프로그래밍 수업 배운 거 있는거 없는 거 다 합쳐서 만들어 놓은 사이트 입니다.
 						<br>
 						<br>
-						<a href="">방명록</a>에 글 남기기
+						<a href="/mysite/gb?a=list">방명록</a>에 글 남기기
 						<br>
 					</p>
 				</div>
 			</div>
 		</div>
 		
-		<jsp:include page="/WEB-INF/views/includes/foot.jsp"></jsp:include><!-- /footer -->
+		<c:import url="/WEB-INF/views/includes/foot.jsp"></c:import><!-- /footer -->
 		
 	</div>
 </body>
