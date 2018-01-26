@@ -15,7 +15,7 @@
 		
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="get" action="/mysite/bo">
+				<form class="board-form" method="post" action="/mysite/bo">
 				<input type="hidden" name ="a" value ="modify">
 				<input type="hidden" name ="no" value ="${bVo.no }">
 					<table class="tbl-ex">
