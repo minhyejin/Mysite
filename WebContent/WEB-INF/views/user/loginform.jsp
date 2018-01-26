@@ -21,7 +21,7 @@
 			<div id="content">
 				<div id="user">
 					
-					<form id="login-form" name="loginform" method="get" action="/mysite/user">
+					<form id="login-form" name="loginform" method="post" action="/mysite/user">
 						<input type="hidden" name="a" value="login" /> 
 						
 						<label class="block-label" for="email">이메일</label> 

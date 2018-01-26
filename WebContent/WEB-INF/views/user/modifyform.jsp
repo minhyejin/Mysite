@@ -21,7 +21,7 @@
 			<div id="content">
 				<div id="user">
 	
-					<form id="join-form" name="joinForm" method="get" action="user">
+					<form id="join-form" name="joinForm" method="post" action="user">
 
 						
 						<label class="block-label" for="name">이름</label>

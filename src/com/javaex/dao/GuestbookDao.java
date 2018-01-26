@@ -91,13 +91,15 @@ public class GuestbookDao {
 		    String password = rs.getString("password");
 		    String content = rs.getString("content");
 		    String date = rs.getString("reg_date");
+		  
+		    
 		    
 		    gVo.setNo(no);
 		    gVo.setName(name);
 		    gVo.setPassword(password);
 		    gVo.setContent(content);
 		    gVo.setRegDate(date);
-		    
+		 
 		    gList.add(gVo);//메모리에만 넣은거니까 add해줘야함 
 		    
 		    
