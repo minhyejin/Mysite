@@ -23,7 +23,7 @@ public class BoardServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		System.out.println("board 진입");
 		String actionName = request.getParameter("a");
-		System.out.println(actionName);
+	
 		if("list".equals(actionName)) {
 			System.out.println("list 진입");
 			BoardDao bDao = new BoardDao();
@@ -75,11 +75,11 @@ public class BoardServlet extends HttpServlet {
 			BoardDao bDao = new BoardDao();
 			BoardVo bVo = bDao.getArticle(no);
 		
-			String newTitle = request.getParameter("title");
-				String newContent = request.getParameter("content");
+			String title = request.getParameter("title");
+				String content = request.getParameter("content");
 				
-				bVo.setTitle(newTitle);
-				bVo.setContent(newContent);
+				bVo.setTitle(title);
+				bVo.setContent(content);
 				
 				bDao.modify(bVo);
 				WebUtil.redirect(request, response, "bo?a=list");

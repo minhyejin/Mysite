@@ -13,12 +13,13 @@ import com.javaex.vo.BoardVo;
 
 public class BoardDao {
 
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
 	
 	public List<BoardVo> getList(){
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 		 List<BoardVo> bList = new ArrayList<BoardVo>();
 		try {
 		    // 1. JDBC 드라이버 (Oracle) 로딩
@@ -30,7 +31,8 @@ public class BoardDao {
 		    String query = " select b.no, b.title, b.writer, u.name, b.content, "
 		    		+ "		to_char(b.reg_date,'YYYY-MM-DD HH:MM ') reg_date, b.hit , u.no user_no "
 		    		+      " from board b, users u "
-		    		+      " where b.user_no = u.no  ";
+		    		+      " where b.user_no = u.no  "
+		    		+      " order by b.no desc ";
 		    pstmt = conn.prepareStatement(query);
 		    rs = pstmt.executeQuery();
 	
@@ -81,9 +83,7 @@ public class BoardDao {
 	} 
 	public void write(BoardVo bVo) {
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 
 		try {
 		    // 1. JDBC 드라이버 (Oracle) 로딩
@@ -134,9 +134,7 @@ public class BoardDao {
 		
 		
 	}public void view(int no, int hit) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 
 		try {
 		    // 1. JDBC 드라이버 (Oracle) 로딩
@@ -148,7 +146,7 @@ public class BoardDao {
 
 		    // 3. SQL문 준비 / 바인딩 / 실행
 		    String query = " update board  "
-		    		+ 	   " set hit = ?  where no = ? ";
+		    		    +  " set hit = ?  where no = ? ";
 		    pstmt = conn.prepareStatement(query);
 		    
 			pstmt.setInt(1, hit);
@@ -184,9 +182,7 @@ public class BoardDao {
 		
 		
 	}public BoardVo getArticle(int no) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 		BoardVo bVo = null;
 		try {
 		    // 1. JDBC 드라이버 (Oracle) 로딩
@@ -195,14 +191,15 @@ public class BoardDao {
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		    // 3. SQL문 준비 / 바인딩 / 실행
-		    String query = " select no, title, content, user_no, reg_date, writer, hit  from board ";
+		    String query = " select no, title, content, user_no, reg_date, writer, hit  from board where no = ? ";
 		    pstmt = conn.prepareStatement(query);
+		   
+		    pstmt.setInt(1, no);
 		    rs = pstmt.executeQuery();
-	
 		    // 4.결과처리
 		    while(rs.next()) {
 		    	
-		    	bVo = new BoardVo();
+		    
 		    bVo = new BoardVo();
 			bVo.setNo(rs.getInt("no"));
 			bVo.setUserNo(rs.getInt("user_no"));
@@ -238,9 +235,7 @@ public class BoardDao {
 		return bVo;
 		
 	} public void modify(BoardVo bVo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-	
+		
 		
 		try {
 			// 1. JDBC 드라이버 (Oracle) 로딩
@@ -283,9 +278,6 @@ public class BoardDao {
 		
 		
 	}public void delete(int no){
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-	
 		
 		try {
 			// 1. JDBC 드라이버 (Oracle) 로딩
@@ -299,8 +291,6 @@ public class BoardDao {
 			String query = "delete from board "
 					+ "where no = ? ";
 			pstmt = conn.prepareStatement(query);
-			
-			
 			pstmt.setInt(1,no);
 			
 			int count = pstmt.executeUpdate();

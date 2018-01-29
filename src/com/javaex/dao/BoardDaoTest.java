@@ -9,13 +9,8 @@ public class BoardDaoTest {
 	public static void main(String[] args) {
 		
 		BoardDao bDao = new BoardDao();
-		List<BoardVo> bList = bDao.getList();
-		
-		for(BoardVo bVo : bList) {
-			
-			System.out.println(bVo.toString());
-			
-		}
+	
+		System.out.println(bDao.getArticle(3).toString());
 
 	}
 
