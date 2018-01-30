@@ -29,7 +29,20 @@ public class BoardServlet extends HttpServlet {
 			BoardDao bDao = new BoardDao();
 			List<BoardVo> bList = bDao.getList();
 			request.setAttribute("list", bList);
-			WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
+
+			String kwd = request.getParameter("kwd");
+			System.out.println(kwd);
+			System.out.println("search 진입");
+
+			if(kwd != null) {
+				List<BoardVo> sList = bDao.getList();
+				System.out.println("slist진입");
+				sList = bDao.getList(kwd);
+				System.out.println("slist dao진입");
+				request.setAttribute("list", sList);
+				//return;
+			}WebUtil.forward(request, response, "/WEB-INF/views/board/list.jsp");
+			
 			
 		}else if("writeform".equals(actionName)) {
 			System.out.println("writeform 진입");
@@ -69,8 +82,8 @@ public class BoardServlet extends HttpServlet {
 		}
 		else if("modify".equals(actionName)) {
 			System.out.println("modify 진입");
-			HttpSession session = request.getSession(true);
-			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			//HttpSession session = request.getSession(true);
+			//UserVo authUser = (UserVo)session.getAttribute("authUser");
 			int no = Integer.valueOf(request.getParameter("no"));
 			BoardDao bDao = new BoardDao();
 			BoardVo bVo = bDao.getArticle(no);
@@ -86,8 +99,8 @@ public class BoardServlet extends HttpServlet {
 			
 		} else if("modifyform".equals(actionName)) {
 			System.out.println("modifyform 진입");
-			HttpSession session = request.getSession(true);
-			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			//HttpSession session = request.getSession(true);
+			//UserVo authUser = (UserVo)session.getAttribute("authUser");
 			int no = Integer.valueOf(request.getParameter("no"));
 			BoardDao bDao = new BoardDao();
 			BoardVo bVo = bDao.getArticle(no);

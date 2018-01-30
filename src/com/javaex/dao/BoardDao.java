@@ -133,6 +133,8 @@ public class BoardDao {
 		
 		
 		
+		
+		
 	}public void view(int no, int hit) {
 		
 
@@ -198,8 +200,7 @@ public class BoardDao {
 		    rs = pstmt.executeQuery();
 		    // 4.결과처리
 		    while(rs.next()) {
-		    	
-		    
+
 		    bVo = new BoardVo();
 			bVo.setNo(rs.getInt("no"));
 			bVo.setUserNo(rs.getInt("user_no"));
@@ -315,5 +316,71 @@ public class BoardDao {
 			}
 		}
 			
-		}
+		}	
+	public List<BoardVo> getList(String kwd){
+			
+			
+			 List<BoardVo> sList = new ArrayList<BoardVo>();
+			try {
+			    // 1. JDBC 드라이버 (Oracle) 로딩
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+			    // 2. Connection 얻어오기
+				String url = "jdbc:oracle:thin:@localhost:1521:xe";
+				conn = DriverManager.getConnection(url, "webdb", "webdb");
+			    // 3. SQL문 준비 / 바인딩 / 실행
+			    String query = " select b.no, b.title, b.writer, u.name, b.content, "
+			    		+ "		to_char(b.reg_date,'YYYY-MM-DD HH:MM ') reg_date, b.hit , u.no user_no "
+			    		+      " from board b, users u "
+			    		+      " where b.user_no = u.no  "
+			    		+       " and b.title like ? "
+			    		+      " order by b.no desc ";
+			    pstmt = conn.prepareStatement(query);
+			    pstmt.setString(1, "%"+kwd+"%");
+			    rs = pstmt.executeQuery();
+		
+			    // 4.결과처리
+			    while(rs.next()) {
+			    	
+			    	BoardVo bVo = new BoardVo();//실제 데이타는 디비안에 있으니까 디비에서 조회해야함 
+			    	
+			   
+			    bVo.setNo(rs.getInt("no"));
+				bVo.setTitle(rs.getString("title"));
+				bVo.setWriter(rs.getString("writer"));
+				bVo.setRegDate(rs.getString("reg_date"));
+				bVo.setContent(rs.getString("content"));
+				bVo.setHit(rs.getInt("hit"));
+				
+				bVo.setUserNo(rs.getInt("user_no"));
+				
+			    
+				sList.add(bVo);//메모리에만 넣은거니까 add해줘야함 
+	  
+			   } 
+			    
+			} catch (ClassNotFoundException e) {
+			    System.out.println("error: 드라이버 로딩 실패 - " + e);
+			} catch (SQLException e) {
+			    System.out.println("error:" + e);
+			} finally {
+			   
+			    // 5. 자원정리
+			    try {
+			        if (rs != null) {
+			            rs.close();
+			        }                
+			        if (pstmt != null) {
+			            pstmt.close();
+			        }
+			        if (conn != null) {
+			            conn.close();
+			        }
+			    } catch (SQLException e) {
+			        System.out.println("error:" + e);
+			    }
+
+			}
+			return sList;
+
+		} 
 }

@@ -11,13 +11,14 @@
 	<div id="container">
 		
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
-		
-		<c:import url="/WEB-INF/views/includes/navi.jsp"></c:import>>
+		<c:import url="/WEB-INF/views/includes/navi.jsp"></c:import>
 		
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="bo?a=list" method="get">
+					
 					<input type="text" id="kwd" name="kwd" value="">
+					<input type = "hidden" name = "a" value = "list">
 					<input type="submit" value="찾기">
 				</form>
 			
